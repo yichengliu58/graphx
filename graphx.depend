@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1415437954 source:/home/lyc/文档/graphx/main.cpp
+	"lexer.h"
+	<iostream>
+
+1415439322 /home/lyc/文档/graphx/include/lexer.h
+	<string>
+	<cmath>
+	<vector>
+	<memory>
+	<fstream>
+
+1415437900 source:/home/lyc/文档/graphx/src/lexer.cpp
+	"lexer.h"
+	<iostream>
+	<sstream>
+
+1415533586 source:/home/lyc-fedora/文档/graphx/main.cpp
+	"lexer.h"
+	<iostream>
+
+1415533715 /home/lyc-fedora/文档/graphx/include/lexer.h
+	<string>
+	<cmath>
+	<vector>
+	<deque>
+	<memory>
+	<fstream>
+	<stdexcept>
+
+1415769095 source:/home/lyc-fedora/文档/graphx/src/lexer.cpp
+	"lexer.h"
+	<iostream>
+	<sstream>
+
