@@ -1,4 +1,10 @@
 #include "ExpressTree.h"
+
+shared_ptr<ExpressTree> ExpressTree::CreateNode(Token t)
+{
+    return std::make_shared<ExpressTree>(t);
+}
+
 //产生左右孩子
 shared_ptr<ExpressTree> ExpressTree::CreateChild(Child c,Token& t)
 {
@@ -15,11 +21,14 @@ shared_ptr<ExpressTree> ExpressTree::CreateChild(Child c,Token& t)
     }
 }
 
-//销毁一课子树
-void ExpressTree::Destroy(shared_ptr<ExpressTree>& node)
+void ExpressTree::SetChild(Child c,shared_ptr<ExpressTree> child)
 {
-    node.reset();
+    if(c == Child::left)
+        left = child;
+    else if(c == Child::right)
+        right = child;
 }
+
 
 //static void ExpressTree::InOrder(shared_ptr<ExpressTree>& node)
 //{

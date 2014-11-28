@@ -5,6 +5,8 @@
 Parser* Parser::single = nullptr;
 Lexer* Lexer::single = nullptr;
 std::size_t Lexer::line = 0;
+std::deque<string> Parser::log;
+Token Parser::token;
 
 int main(int argc,char *argv[])
 {
@@ -18,11 +20,9 @@ int main(int argc,char *argv[])
 
     try
     {
-        Token t;
-        std::unique_ptr<Lexer> p = Lexer::CreateLexer(path);
-        p->DealFile();
-        t = p->GetToken();
-        t.ToString(std::cout);
+        //根据Lexer创建Parser
+        std::unique_ptr<Parser> p = Parser::CreateParser(Lexer::CreateLexer(path));
+        //t.ToString(std::cout);
     }
     catch(const std::runtime_error& e)
     {

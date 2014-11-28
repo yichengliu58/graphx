@@ -61,7 +61,7 @@ public:
 	    stream.close();
 	}
 	//单例访问点
-	static std::unique_ptr<Lexer> CreateLexer(string&);
+	static std::shared_ptr<Lexer> CreateLexer(string&);
     //处理整个文件
     void DealFile();
 	//处理一条语句

@@ -22,10 +22,10 @@ double Lexer::func(double num, int type)
     }
 }
 //初始化对象
-std::unique_ptr<Lexer> Lexer::CreateLexer(string& filePath)
+std::shared_ptr<Lexer> Lexer::CreateLexer(string& filePath)
 {
 	//创建新的unique_ptr
-	std::unique_ptr<Lexer> t(nullptr);
+	std::shared_ptr<Lexer> t(nullptr);
 	//分配内存
 	if (Lexer::single == nullptr)
 	{
