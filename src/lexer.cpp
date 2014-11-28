@@ -46,12 +46,13 @@ void Lexer::intobuf(string& s)
         {
             //调用拷贝构造函数添加
             tmpToken.push_back(Token(ele));
+            tmpToken.back().no = line;
             flag = true;
             break;
         }
         //如果没有匹配成功则加入一个出错的符号
         if(!flag)
-            tmpToken.push_back(Token(TokenType::Err,"error",0,nullptr));
+            tmpToken.push_back(Token(TokenType::Err,"error",0,nullptr,line));
 }
 
 bool Lexer::isstr(string& s) const
@@ -96,7 +97,10 @@ string Lexer::getStatement()
 	    char c = stream.get();
 	    //判断分号
 	    if(c == ';')
+        {
+            statement += c;
             break;
+        }
         //判断注释
         else if(c == '/')
         {
@@ -132,13 +136,15 @@ void Lexer::DealFile()
 
 void Lexer::DealStatement(const string& input)
 {
+    //语句号加一
+    ++line;
     //处理符号
     std::istringstream is(input);
     string t;
     while(is >> t)
     {
         //判断是否有括号或者逗号，有的话需要按字符处理
-        if(t.find("(") != string::npos || t.find(")") != string::npos || t.find(",") != string::npos)
+        if(t.find(";") != string::npos || t.find("(") != string::npos || t.find(")") != string::npos || t.find(",") != string::npos)
         {
 
             //对于其中每一个字符
@@ -168,7 +174,7 @@ void Lexer::DealStatement(const string& input)
                     }
                     iter--;
                     //直接添加常数
-                    tmpToken.push_back(Token(TokenType::Const,tn,std::stod(tn),nullptr));
+                    tmpToken.push_back(Token(TokenType::Const,tn,std::stod(tn),nullptr,line));
                 }
                 //其他情况是标点符号
                 else
@@ -182,12 +188,12 @@ void Lexer::DealStatement(const string& input)
         //是否为常数
         else if(isnum(t))
             //添加至符号缓存
-            tmpToken.push_back(Token(TokenType::Const,t,std::stod(t),nullptr));
+            tmpToken.push_back(Token(TokenType::Const,t,std::stod(t),nullptr,line));
         //其他情况则是纯字符
         else if(isstr(t))
             intobuf(t);
         else
-            tmpToken.push_back(Token(TokenType::Err,"error",0,nullptr));
+            tmpToken.push_back(Token(TokenType::Err,"error",0,nullptr,line));
     }
 }
 

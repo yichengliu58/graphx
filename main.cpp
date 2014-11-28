@@ -1,7 +1,10 @@
 #include "lexer.h"
+#include "Parser.h"
 #include <iostream>
 
+Parser* Parser::single = nullptr;
 Lexer* Lexer::single = nullptr;
+std::size_t Lexer::line = 0;
 
 int main(int argc,char *argv[])
 {
@@ -18,8 +21,8 @@ int main(int argc,char *argv[])
         Token t;
         std::unique_ptr<Lexer> p = Lexer::CreateLexer(path);
         p->DealFile();
-        while((t = p->GetToken()).type != TokenType::Non)
-            t.ToString(std::cout);
+        t = p->GetToken();
+        t.ToString(std::cout);
     }
     catch(const std::runtime_error& e)
     {

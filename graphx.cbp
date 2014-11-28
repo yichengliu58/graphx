@@ -34,8 +34,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/ExpressTree.h" />
+		<Unit filename="include/Parser.h" />
 		<Unit filename="include/lexer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/ExpressTree.cpp" />
+		<Unit filename="src/Parser.cpp" />
 		<Unit filename="src/lexer.cpp" />
 		<Extensions>
 			<envvars />

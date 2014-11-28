@@ -6,6 +6,7 @@
 #include <memory>
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -34,17 +35,19 @@ struct Token
 	double val;
 	//函数指针
 	double (*funPtr)(double, int);
+	//语句号记录
+	std::size_t no;
 	//默认构造函数
 	Token() = default;
 	//重载构造函数
-	Token(TokenType t, string s, double d, double f(double, int))
-		:type(t), str(s), val(d), funPtr(f){ }
+	Token(TokenType t, string s, double d, double f(double, int),std::size_t l = 0)
+		:type(t), str(s), val(d), funPtr(f),no(l){ }
     //默认拷贝构造函数
     Token(const Token&) = default;
 
     void ToString(std::ostream& out)
     {
-        out << "type: " << type << "    str: " << str << "  val: " << val << "\n";
+        out << "type: " << type << "    str: " << str << "  val: " << val << " line: " << no << "\n";
     }
 };
 
@@ -65,7 +68,6 @@ public:
 	void DealStatement(const string&);
     //读取当前符号缓冲一条记录
     Token GetToken();
-
 private:
     //读取一条语句
     string getStatement();
@@ -81,6 +83,7 @@ private:
 	//单例构造函数
 	Lexer(const string& path)
 	{
+	    line = 0;
 	    stream.open(path);
 	    if(!stream)
             throw std::runtime_error("打开文件失败！");
@@ -94,13 +97,15 @@ private:
 	deque<Token> tmpToken;
 	//单例访问点
 	static Lexer* single;
+	//记录语句号
+	static std::size_t line;
 
 	//存储一个符号具体值的表
 	const vector<Token> tokenTable
 	{
-		Token( TokenType::Const, "PI", 3.1415926, nullptr ),
-		Token(TokenType::Const, "E", 2.71828, nullptr ),
-		Token( TokenType::T, "T", 0, nullptr ),
+		Token( TokenType::Const, "PI", 3.1415926, nullptr),
+		Token(TokenType::Const, "E", 2.71828, nullptr),
+		Token( TokenType::T, "T", 0, nullptr),
 		Token( TokenType::Func, "SIN", 1, Lexer::func),
 		Token( TokenType::Func, "COS", 2, Lexer::func ),
 		Token( TokenType::Func, "TAN", 3, Lexer::func ),
