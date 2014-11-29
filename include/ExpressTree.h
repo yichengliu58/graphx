@@ -21,10 +21,10 @@ public:
     //使用指针设置左右孩子
     void SetChild(Child,shared_ptr<ExpressTree>);
 
-//    //三种遍历
-//    static void InOrder(shared_ptr<ExpressTree>&);
-//    static void PostOrder(shared_ptr<ExpressTree>&);
-//    static void PreOrder(shared_ptr<ExpressTree>&);
+    //三种遍历
+    void InOrder(std::ostream&);
+    void PostOrder(std::ostream&);
+    void PreOrder(std::ostream&);
 private:
     //当前节点的记号
     Token token;

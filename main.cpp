@@ -22,6 +22,7 @@ int main(int argc,char *argv[])
     {
         //根据Lexer创建Parser
         std::unique_ptr<Parser> p = Parser::CreateParser(Lexer::CreateLexer(path));
+        p->StartParse();
         //t.ToString(std::cout);
     }
     catch(const std::runtime_error& e)

@@ -1,7 +1,7 @@
 #include "Parser.h"
 #include <sstream>
 #include <iostream>
-
+using std::cout;
 std::unique_ptr<Parser> Parser::CreateParser(std::shared_ptr<Lexer> lt)
 {
     //创建新的unique_ptr
@@ -28,11 +28,12 @@ void Parser::StartParse()
     lexer->DealFile();
     //开始递归下降分析语法
     log.push_back("开始递归分析语法...");
-    statement();
+    //statement();
     log.push_back("语法分析结束");
+    ShowLog(cout);
 }
 
-void Parser::ShowLog(std::ofstream& out)
+void Parser::ShowLog(std::ostream& out)
 {
     for(auto s : log)
         out << s << "\n";
@@ -104,6 +105,8 @@ void Parser::origin()
     match(TokenType::Lbracket);
     //生成语法树
     tmp = expression->GetExpression();
+    //后序遍历
+    tmp->PostOrder(std::cout);
     //在这里调用绘图类进行表达式计算
     //...
     //...
@@ -150,6 +153,7 @@ void Parser::fors()
     //起点坐标
     match(TokenType::To);
     tmp = expression->GetExpression();
+    tmp->PostOrder(std::cout);
     //终点坐标
     match(TokenType::Step);
     tmp = expression->GetExpression();

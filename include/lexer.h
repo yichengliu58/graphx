@@ -68,6 +68,8 @@ public:
 	void DealStatement(const string&);
     //读取当前符号缓冲一条记录
     Token GetToken();
+    //将读出的一个记录送回缓冲区
+    void PushToken(Token);
 private:
     //读取一条语句
     string getStatement();

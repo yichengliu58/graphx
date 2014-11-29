@@ -30,32 +30,32 @@ void ExpressTree::SetChild(Child c,shared_ptr<ExpressTree> child)
 }
 
 
-//static void ExpressTree::InOrder(shared_ptr<ExpressTree>& node)
-//{
-//    if(node)
-//    {
-//        ExpressTree::InOrder(node->left);
-//        node->
-//        ExpressTree::InOrder(node->left);
-//    }
-//}
-//
-//static void ExpressTree::PreOrder(shared_ptr<ExpressTree>& node)
-//{
-//    if(node)
-//    {
-//        node->ShowToken(std::cout);
-//        ExpressTree::PreOrder(node->left);
-//        ExpressTree::PreOrder(node->right);
-//    }
-//}
-//
-//static void ExpressTree::PostOrder(shared_ptr<ExpressTree>& node)
-//{
-//    if(node)
-//    {
-//        ExpressTree::PostOrder(node->left);
-//        ExpressTree::PostOrder(node->right);
-//        node->ShowToken(std::cout);
-//    }
-//}
+void ExpressTree::InOrder(std::ostream& out)
+{
+    if(this != nullptr)
+    {
+        this->left->InOrder(out);
+        token.ToString(out);
+        this->right->InOrder(out);
+    }
+}
+
+void ExpressTree::PreOrder(std::ostream& out)
+{
+    if(this != nullptr)
+    {
+        token.ToString(out);
+        this->left->PreOrder(out);
+        this->right->PreOrder(out);
+    }
+}
+
+void ExpressTree::PostOrder(std::ostream& out)
+{
+    if(this != nullptr)
+    {
+        this->left->PostOrder(out);
+        this->right->PostOrder(out);
+        token.ToString(out);
+    }
+}

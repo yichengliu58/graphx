@@ -209,3 +209,8 @@ Token Lexer::GetToken()
         return t;
     }
 }
+
+void Lexer::PushToken(Token t)
+{
+    tmpToken.push_front(t);
+}

@@ -22,7 +22,7 @@ public:
     //开始分析源程序
     void StartParse();
     //输出日志信息
-    void ShowLog(std::ofstream&);
+    void ShowLog(std::ostream&);
     //输入日志信息
     void PushLog(string&);
 private:
