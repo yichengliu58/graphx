@@ -24,7 +24,7 @@ public:
     //输出日志信息
     void ShowLog(std::ostream&);
     //输入日志信息
-    void PushLog(string&);
+    static void PushLog(string);
 private:
     /*工具方法部分*/
     //匹配记号
@@ -36,9 +36,11 @@ private:
     void rot();
     void fors();
     //构造函数
-    Parser() = default;
     Parser(std::shared_ptr<Lexer> lex)
-        :lexer(lex){expression = nullptr;}
+    {
+        lexer = lex;
+        expression = std::make_shared<Expression>(lexer);
+    }
 
     /*数据字段部分*/
     //用于计算语法树的Expression对象

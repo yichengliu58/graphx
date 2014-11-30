@@ -22,9 +22,9 @@ public:
     void SetChild(Child,shared_ptr<ExpressTree>);
 
     //三种遍历
-    void InOrder(std::ostream&);
-    void PostOrder(std::ostream&);
-    void PreOrder(std::ostream&);
+    void InOrder();
+    void PostOrder();
+    void PreOrder();
 private:
     //当前节点的记号
     Token token;

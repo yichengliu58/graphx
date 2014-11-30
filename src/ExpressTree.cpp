@@ -30,32 +30,32 @@ void ExpressTree::SetChild(Child c,shared_ptr<ExpressTree> child)
 }
 
 
-void ExpressTree::InOrder(std::ostream& out)
+void ExpressTree::InOrder()
 {
     if(this != nullptr)
     {
-        this->left->InOrder(out);
-        token.ToString(out);
-        this->right->InOrder(out);
+        this->left->InOrder();
+        Parser::PushLog(token.str);
+        this->right->InOrder();
     }
 }
 
-void ExpressTree::PreOrder(std::ostream& out)
+void ExpressTree::PreOrder()
 {
     if(this != nullptr)
     {
-        token.ToString(out);
-        this->left->PreOrder(out);
-        this->right->PreOrder(out);
+        Parser::PushLog(token.ToString());
+        this->left->PreOrder();
+        this->right->PreOrder();
     }
 }
 
-void ExpressTree::PostOrder(std::ostream& out)
+void ExpressTree::PostOrder()
 {
     if(this != nullptr)
     {
-        this->left->PostOrder(out);
-        this->right->PostOrder(out);
-        token.ToString(out);
+        this->left->PostOrder();
+        this->right->PostOrder();
+        Parser::PushLog(token.ToString());
     }
 }

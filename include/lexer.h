@@ -7,6 +7,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include <sstream>
 
 using std::string;
 using std::vector;
@@ -45,9 +46,11 @@ struct Token
     //默认拷贝构造函数
     Token(const Token&) = default;
 
-    void ToString(std::ostream& out)
+    std::string ToString()
     {
-        out << "type: " << type << "    str: " << str << "  val: " << val << " line: " << no << "\n";
+        std::ostringstream out;
+        out << "type: " << type << "  str: " << str << "  val: " << val << " line: " << no;
+        return out.str();
     }
 };
 

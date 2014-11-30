@@ -28,7 +28,7 @@ void Parser::StartParse()
     lexer->DealFile();
     //开始递归下降分析语法
     log.push_back("开始递归分析语法...");
-    //statement();
+    statement();
     log.push_back("语法分析结束");
     ShowLog(cout);
 }
@@ -39,7 +39,7 @@ void Parser::ShowLog(std::ostream& out)
         out << s << "\n";
 }
 
-void Parser::PushLog(string& s)
+void Parser::PushLog(string s)
 {
     log.push_back(s);
 }
@@ -66,34 +66,36 @@ void Parser::statement()
 {
     std::stringstream out;
     //获取第一个符号
-    token = lexer->GetToken();
-    //开始匹配
-    switch(token.type)
+    while((token = lexer->GetToken()).type != TokenType::Non)
     {
-    case TokenType::Origin:
-        //log.push_back("开始匹配Origin语句");
-        origin();
-        //log.push_back("离开Origin语句");
-        break;
-    case TokenType::Scale:
-        //log.push_back("开始匹配Scale语句");
-        scale();
-        //log.push_back("离开Scale语句");
-        break;
-    case TokenType::Rot:
-        //log.push_back("开始匹配Rot语句");
-        rot();
-        //log.push_back("离开Rot语句");
-        break;
-    case TokenType::For:
-        //log.push_back("开始匹配For语句");
-        fors();
-        //log.push_back("离开For语句");
-        break;
-    default:
-        out << "行号：" << token.no << " 错误类型：无法识别的符号";
-        log.push_back(out.str());
-        break;
+        //开始匹配
+        switch(token.type)
+        {
+        case TokenType::Origin:
+            Parser::PushLog("开始匹配Origin语句");
+            origin();
+            Parser::PushLog("离开Origin语句");
+            break;
+        case TokenType::Scale:
+            Parser::PushLog("开始匹配Scale语句");
+            scale();
+            Parser::PushLog("离开Scale语句");
+            break;
+        case TokenType::Rot:
+            Parser::PushLog("开始匹配Rot语句");
+            rot();
+            Parser::PushLog("离开Rot语句");
+            break;
+        case TokenType::For:
+            log.push_back("开始匹配For语句");
+            fors();
+            log.push_back("离开For语句");
+            break;
+        default:
+            out << "行号：" << token.no << " 错误类型：无法识别的符号";
+            Parser::PushLog(out.str());
+            break;
+        }
     }
 }
 
@@ -104,16 +106,18 @@ void Parser::origin()
     match(TokenType::Is);
     match(TokenType::Lbracket);
     //生成语法树
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
-    //后序遍历
-    tmp->PostOrder(std::cout);
+    tmp->InOrder();
     //在这里调用绘图类进行表达式计算
     //...
     //...
     //继续匹配后续关键字
     match(TokenType::Comma);
     //生成第二棵语法树
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
+    tmp->InOrder();
     //再次计算
     //...
     //...
@@ -125,7 +129,9 @@ void Parser::origin()
 void Parser::rot()
 {
     match(TokenType::Is);
+    Parser::PushLog("进入表达式");
     std::shared_ptr<ExpressTree> tmp = expression->GetExpression();
+    tmp->InOrder();
     //...
     match(TokenType::Semico);
 }
@@ -135,10 +141,15 @@ void Parser::scale()
     std::shared_ptr<ExpressTree> tmp;
     match(TokenType::Is);
     match(TokenType::Lbracket);
+    //得到语法树
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
+    tmp->InOrder();
     //...
     match(TokenType::Comma);
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
+    tmp->InOrder();
     //...
     match(TokenType::Rbracket);
     match(TokenType::Semico);
@@ -149,24 +160,33 @@ void Parser::fors()
     std::shared_ptr<ExpressTree> tmp;
     match(TokenType::T);
     match(TokenType::From);
-    tmp = expression->GetExpression();
     //起点坐标
-    match(TokenType::To);
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
-    tmp->PostOrder(std::cout);
+    tmp->InOrder();
     //终点坐标
-    match(TokenType::Step);
+    match(TokenType::To);
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
+    tmp->InOrder();
     //步长
+    match(TokenType::Step);
+    Parser::PushLog("进入表达式");
+    tmp = expression->GetExpression();
+    tmp->InOrder();
+    //左表达式
     match(TokenType::Draw);
     match(TokenType::Lbracket);
+    Parser::PushLog("进入表达式");
     tmp = expression->GetExpression();
-    //左表达式
-    match(TokenType::Comma);
-    tmp = expression->GetExpression();
+    tmp->InOrder();
     //右表达式
-
+    match(TokenType::Comma);
+    Parser::PushLog("进入表达式");
+    tmp = expression->GetExpression();
+    tmp->InOrder();
     //绘制图形
     //...
+    match(TokenType::Rbracket);
     match(TokenType::Semico);
 }
