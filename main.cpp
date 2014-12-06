@@ -2,7 +2,6 @@
 #include "Parser.h"
 #include <iostream>
 
-Parser* Parser::single = nullptr;
 Lexer* Lexer::single = nullptr;
 std::size_t Lexer::line = 0;
 std::deque<string> Parser::log;
@@ -21,8 +20,8 @@ int main(int argc,char *argv[])
     try
     {
         //根据Lexer创建Parser
-        std::unique_ptr<Parser> p = Parser::CreateParser(Lexer::CreateLexer(path));
-        p->StartParse();
+        Parser p = Parser::CreateParser(Lexer::CreateLexer(path));
+        p.StartParse();
         //t.ToString(std::cout);
     }
     catch(const std::runtime_error& e)

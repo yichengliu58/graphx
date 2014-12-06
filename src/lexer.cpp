@@ -21,6 +21,12 @@ double Lexer::func(double num, int type)
         return 0;
     }
 }
+
+double Lexer::Func(double num,int type)
+{
+    return Lexer::func(num,type);
+}
+
 //初始化对象
 std::shared_ptr<Lexer> Lexer::CreateLexer(string& filePath)
 {

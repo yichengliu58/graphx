@@ -2,17 +2,10 @@
 #include <sstream>
 #include <iostream>
 using std::cout;
-std::unique_ptr<Parser> Parser::CreateParser(std::shared_ptr<Lexer> lt)
+Parser& Parser::CreateParser(std::shared_ptr<Lexer> lt)
 {
-    //创建新的unique_ptr
-	std::unique_ptr<Parser> t(nullptr);
-	//分配内存
-	if (Parser::single == nullptr)
-	{
-		Parser::single = new Parser(lt);
-		t.reset(Parser::single);
-	}
-	return t;
+    static Parser single(lt);
+	return single;
 }
 
 std::shared_ptr<Lexer> Parser::GetLexer()

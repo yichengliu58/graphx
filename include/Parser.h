@@ -3,7 +3,6 @@
 #include "Expression.h"
 #include "lexer.h"
 #include "ExpressTree.h"
-
 class Expression;
 class ExpressTree;
 class Lexer;
@@ -16,7 +15,7 @@ public:
     ~Parser() = default;
     //用Lexer初始化Parser
     //单例访问点
-    static std::unique_ptr<Parser> CreateParser(std::shared_ptr<Lexer>);
+    static Parser& CreateParser(std::shared_ptr<Lexer>);
     //获取词法分析器指针
     std::shared_ptr<Lexer> GetLexer();
     //开始分析源程序
@@ -37,18 +36,14 @@ private:
     void fors();
     //构造函数
     Parser(std::shared_ptr<Lexer> lex)
-    {
-        lexer = lex;
-        expression = std::make_shared<Expression>(lexer);
-    }
+        :lexer(lex),ori(),scal(),rot_angle(0)
+    {expression = std::make_shared<Expression>(lex); }
 
     /*数据字段部分*/
-    //用于计算语法树的Expression对象
-    std::shared_ptr<Expression> expression;
-    //保存本parser原始指针
-    static Parser* single;
     //保存用于使用的词法分析器指针
     std::shared_ptr<Lexer> lexer;
+    //用于计算语法树的Expression对象
+    std::shared_ptr<Expression> expression;
     //保存当前Token
     static Token token;
     //保存绘图的参数

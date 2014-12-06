@@ -73,11 +73,13 @@ public:
     Token GetToken();
     //将读出的一个记录送回缓冲区
     void PushToken(Token);
+    //用于计算函数
+    static double Func(double num, int type);
 private:
     //读取一条语句
     string getStatement();
 	//工具方法
-	static double func(double num, int type);
+    static double func(double,int);
 	void intobuf(string&);
 	bool isstr(string&) const;
 	bool isnum(string&) const;
