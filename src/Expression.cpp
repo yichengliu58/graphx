@@ -5,33 +5,52 @@
 //处理最低级加减法并返回递归后的语法树
 std::shared_ptr<ExpressTree> Expression::GetExpression()
 {
-    std::shared_ptr<ExpressTree> node;
-    std::shared_ptr<ExpressTree> left;
-    std::shared_ptr<ExpressTree> right;
+    bool while_flag = false;
+    std::shared_ptr<ExpressTree> node = nullptr;
+    std::shared_ptr<ExpressTree> left = nullptr;
+    std::shared_ptr<ExpressTree> right = nullptr;
     //先处理左部表达式
     left = term();
     //获取符号
     Parser::token = lexer->GetToken();
     //如果是匹配的操作符
-    if(Parser::token.type == TokenType::Plus || Parser::token.type == TokenType::Minus)
+    while(Parser::token.type == TokenType::Plus || Parser::token.type == TokenType::Minus)
     {
-        //初始化当前节点
-        node = ExpressTree::CreateNode(Parser::token);
+        while_flag = true;
+        //初始化临时节点
+        std::shared_ptr<ExpressTree> tmp = ExpressTree::CreateNode(Parser::token);
         //得到右部表达式
         right = term();
-        //设置左右儿子
-        node->SetChild(Child::left,left);
-        node->SetChild(Child::right,right);
-        //返回本节点
-        return node;
+        //继续匹配下一个
+        Parser::token = lexer->GetToken();
+        //如果又是加减法
+        if(Parser::token.type == TokenType::Plus || Parser::token.type == TokenType::Minus)
+        {
+            //产生节点左右儿子
+            tmp->SetChild(Child::left,left);
+            tmp->SetChild(Child::right,right);
+            //设置到left
+            left = tmp;
+        }
+        else
+        {
+            //先吐回去
+            lexer->PushToken(Parser::token);
+            //设置Node
+            node = tmp;
+            node->SetChild(Child::left,left);
+            node->SetChild(Child::right,right);
+            break;
+        }
     }
-    else
+    //没执行while直接返回left
+    if(!while_flag)
     {
-        //先把符号返回缓存
         lexer->PushToken(Parser::token);
-        //返回左部表达式
         return left;
     }
+    else
+        return node;
 }
 
 //自己的匹配
@@ -156,32 +175,52 @@ std::shared_ptr<ExpressTree> Expression::factor()
 //处理普通乘除法
 std::shared_ptr<ExpressTree> Expression::term()
 {
-    std::shared_ptr<ExpressTree> node;
-    std::shared_ptr<ExpressTree> left;
-    std::shared_ptr<ExpressTree> right;
+    bool while_flag = false;
+    std::shared_ptr<ExpressTree> node = nullptr;
+    std::shared_ptr<ExpressTree> left = nullptr;
+    std::shared_ptr<ExpressTree> right = nullptr;
     //先把左操作数匹配
     left = factor();
-    //匹配操作符
+    //读取下一个符号
     Parser::token = lexer->GetToken();
-    //如果是匹配的操作符
-    if(Parser::token.type == TokenType::Mul || Parser::token.type == TokenType::Div)
+    //匹配操作符
+    while(Parser::token.type == TokenType::Mul || Parser::token.type == TokenType::Div)
     {
-        //初始化当前节点
-        node = ExpressTree::CreateNode(Parser::token);
+        while_flag = true;
+        //初始化一个临时节点
+        std::shared_ptr<ExpressTree> tmp = ExpressTree::CreateNode(Parser::token);
         //并且继续匹配右操作符
         right = factor();
-        //产生节点左右儿子
-        node->SetChild(Child::left,left);
-        node->SetChild(Child::right,right);
-        //返回节点
-        return node;
+        //继续匹配下一个
+        Parser::token = lexer->GetToken();
+        //如果又是乘除法
+        if(Parser::token.type == TokenType::Mul || Parser::token.type == TokenType::Div)
+        {
+            //产生节点左右儿子
+            tmp->SetChild(Child::left,left);
+            tmp->SetChild(Child::right,right);
+            //设置到left
+            left = tmp;
+        }
+        else
+        {
+            //先吐回去
+            lexer->PushToken(Parser::token);
+            //设置Node
+            node = tmp;
+            node->SetChild(Child::left,left);
+            node->SetChild(Child::right,right);
+            break;
+        }
     }
-    //不是就把符号返回并返回左边表达式
-    else
+    //如果没执行while就吐回去一个符号并返回left
+    if(!while_flag)
     {
         lexer->PushToken(Parser::token);
         return left;
     }
+    else
+        return node;
 }
 
 

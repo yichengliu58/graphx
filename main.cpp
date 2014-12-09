@@ -21,6 +21,10 @@ int main(int argc,char *argv[])
     {
         Token t;
         //根据Lexer创建Parser
+//        std::shared_ptr<Lexer> l = Lexer::CreateLexer(path);
+//        l->DealFile();
+//        while((t = l->GetToken()).type != TokenType::Non)
+//              std::cout << t.str << std::endl;
         Parser p = Parser::CreateParser(Lexer::CreateLexer(path));
         p.StartParse();
     }
