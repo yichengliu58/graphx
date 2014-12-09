@@ -19,10 +19,10 @@ int main(int argc,char *argv[])
 
     try
     {
+        Token t;
         //根据Lexer创建Parser
         Parser p = Parser::CreateParser(Lexer::CreateLexer(path));
         p.StartParse();
-        //t.ToString(std::cout);
     }
     catch(const std::runtime_error& e)
     {

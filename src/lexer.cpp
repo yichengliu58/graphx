@@ -150,9 +150,10 @@ void Lexer::DealStatement(const string& input)
     while(is >> t)
     {
         //判断是否有括号或者逗号，有的话需要按字符处理
-        if(t.find(";") != string::npos || t.find("(") != string::npos || t.find(")") != string::npos || t.find(",") != string::npos)
+        if(t.find(";") != string::npos || t.find("(") != string::npos || t.find(")") != string::npos || t.find(",") != string::npos ||
+                t.find("*") != string::npos || t.find("/") != string::npos || t.find("+") != string::npos || t.find("-") != string::npos||
+                t.find("p") != string::npos || t.find("P") != string::npos || t.find("e") != string::npos || t.find("E") != string::npos)
         {
-
             //对于其中每一个字符
             for(auto iter = t.begin();iter != t.end();iter++)
             {
@@ -173,7 +174,7 @@ void Lexer::DealStatement(const string& input)
                 else if(std::isdigit(*iter))
                 {
                     string tn = "";
-                    while(std::isdigit(*iter))
+                    while(std::isdigit(*iter) || *iter == '.')
                     {
                         tn += *iter;
                         iter++;

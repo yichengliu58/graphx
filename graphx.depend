@@ -15,7 +15,7 @@
 	<iostream>
 	<sstream>
 
-1417435091 source:/home/lyc-fedora/文档/graphx/main.cpp
+1418100065 source:/home/lyc-fedora/文档/graphx/main.cpp
 	"lexer.h"
 	"Parser.h"
 	<iostream>
@@ -31,7 +31,7 @@
 	<iostream>
 	<sstream>
 
-1417233578 source:/home/lyc-fedora/文档/graphx/src/lexer.cpp
+1418100775 source:/home/lyc-fedora/文档/graphx/src/lexer.cpp
 	"lexer.h"
 	<iostream>
 	<sstream>
@@ -49,7 +49,7 @@
 	"lexer.h"
 	"ExpressTree.h"
 
-1417346901 source:/home/lyc-fedora/文档/graphx/src/Parser.cpp
+1417434174 source:/home/lyc-fedora/文档/graphx/src/Parser.cpp
 	"Parser.h"
 	<sstream>
 	<iostream>
@@ -64,8 +64,9 @@
 	<iostream>
 	"Expression.h"
 
-1417341320 source:/home/lyc-fedora/文档/graphx/src/Paint.cpp
+1417435335 source:/home/lyc-fedora/文档/graphx/src/Paint.cpp
 	"Paint.h"
+	<cmath>
 
 1417341328 /home/lyc-fedora/文档/graphx/include/Paint.h
 	"Expression.h"
